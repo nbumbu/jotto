@@ -1,4 +1,15 @@
 import checkPropTypes from "check-prop-types";
+import {  createStore } from "redux";
+
+import rootReducer from "../src/reducers";
+
+
+
+export const storeFactory = (initialState) => {
+    return createStore(rootReducer, initialState);
+}
+
+
 /**
  * Returns node(s) with the given data-test attribute.
  * @param {ShallowWrapper} wrapper - Enzyme shallow wrapper 
