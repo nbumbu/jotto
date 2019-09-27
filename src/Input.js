@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { guessWord } from "./actions"
-import { dispatch } from "rxjs/internal/observable/pairs";
-import {actionTypes} from "./actions";
 
 export class UnconnectedInput extends Component {
 
@@ -16,10 +14,9 @@ export class UnconnectedInput extends Component {
     onSubmitHandler = (event) => {
         event.preventDefault();
         const guessedWord = this.state.currentGuess;
-
         if(guessedWord && guessedWord.length > 0 ) {
             this.props.guessWord(guessedWord);
-
+            this.setState({currentGuess: ''})
         }
 
     }
@@ -57,7 +54,7 @@ const mapStateToProps = ({ success }) => {
 const mapDispatchToProps = dispatch => {
     return {
         // dispatching plain actions
-        guessWord: (word) => guessWord(word)
+        guessWord: (word) =>  dispatch(guessWord(word))
     }
 }
 

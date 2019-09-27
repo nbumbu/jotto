@@ -10,13 +10,15 @@ export class UnconnectedApp extends Component {
 
   componentDidMount() {
     // get the secret word
-    this.props.getSecretWord();
+    // this.props.getSecretWord();
+
   }
 
   render() {
     return (
       <div className="container">
         <h1>Jotto Game</h1>
+        <div>The secret word is: {this.props.secretWord}</div>
         <Congrats success={this.props.success} />
         <Input />
         <GuessedWords guessedWords={this.props.guessedWords} />
