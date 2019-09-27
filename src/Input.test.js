@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import { findByTestAttr, storeFactory } from "../test/testUtils";
 
-import Input from "./Input";
+import Input, {UnconnectedInput} from "./Input";
 
 
 const setup = (initialState = {}) => {
@@ -82,4 +82,38 @@ describe('render', () => {
     
 
 });
+
+
+describe("guessWord action runs", () => {
+    let guessWordMock;
+    let wrapper;
+    const guessedWord = 'train';
+
+    beforeEach(() => {
+        guessWordMock = jest.fn();
+        const props = {
+            guessWord: guessWordMock
+        }
+        wrapper = shallow(<UnconnectedInput {...props} />);
+
+        // add value to the input box
+        wrapper.setState({currentGuess: guessedWord});
+
+
+
+        // simulate the click on submit button
+        const submitButton = findByTestAttr(wrapper, 'submit-button');
+        submitButton.simulate('click', {preventDefault(){}});
+    });
+
+    test('when the submit button is clicked', () => {
+        const guessWordCallCount = guessWordMock.mock.calls.length;
+        expect(guessWordCallCount).toBe(1);
+    });
+
+    test('calls guessWord with input value as argument', () => {
+        const guessWordArg = guessWordMock.mock.calls[0][0];
+        expect(guessWordArg).toBe(guessedWord);
+    });
+})
 

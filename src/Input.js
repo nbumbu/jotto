@@ -4,7 +4,25 @@ import { guessWord } from "./actions"
 import { dispatch } from "rxjs/internal/observable/pairs";
 import {actionTypes} from "./actions";
 
-class Input extends Component {
+export class UnconnectedInput extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {currentGuess: ''}
+
+        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    }
+
+    onSubmitHandler = (event) => {
+        event.preventDefault();
+        const guessedWord = this.state.currentGuess;
+
+        if(guessedWord && guessedWord.length > 0 ) {
+            this.props.guessWord(guessedWord);
+
+        }
+
+    }
 
     render() {
         let contents = this.props.success ? null : (
@@ -13,11 +31,14 @@ class Input extends Component {
                     data-test="input-box"
                     className="mb-2 mx-sm-3"
                     type="text"
-                    placeholder="enter guess" />
+                    placeholder="enter guess"
+                    value={this.state.currentGuess} 
+                    onChange={(event) => this.setState({currentGuess: event.target.value})}/>
                 <button
                     data-test="submit-button"
                     className="btn btn-primary mb-2"
                     type="submit"
+                    onClick={(event) => this.onSubmitHandler(event)}
                 >Submit</button>
             </form>
         )
@@ -40,4 +61,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default connect(mapStateToProps, mapDispatchToProps)(UnconnectedInput);
